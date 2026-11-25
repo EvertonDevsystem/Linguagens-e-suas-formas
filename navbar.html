@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exemplo 02 — Barras de Navegação (Navbars)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    body { background: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="fw-bold mb-1">Exemplos de Navbars Responsivas</h1>
+      <p class="text-muted mb-0">Menus adaptáveis com botão hambúrguer automático, dropdowns e barra de busca.</p>
+    </div>
+    <a href="../infografico.html" class="btn btn-outline-dark"><i class="bi bi-arrow-left me-1"></i>Voltar</a>
+  </div>
+
+  <h6 class="fw-bold text-uppercase text-muted mb-2">1. Navbar Escura com Dropdown e Busca (<code>.navbar-dark.bg-dark</code>)</h6>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-3 shadow-sm mb-5">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="../index.html"><i class="bi bi-terminal-fill text-info me-1"></i>Atlas Dev</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navModelo1">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navModelo1">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="../index.html">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="../infografico.html">Infográfico</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Linguagens</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="../index.html">Java 27</a></li>
+              <li><a class="dropdown-item" href="../csharp.html">C# 15</a></li>
+              <li><a class="dropdown-item" href="../python.html">Python 3.15</a></li>
+              <li><a class="dropdown-item" href="../c.html">C23</a></li>
+              <li><a class="dropdown-item" href="../cpp.html">C++26</a></li>
+              <li><a class="dropdown-item" href="../html.html">HTML5</a></li>
+              <li><a class="dropdown-item" href="../css.html">CSS3</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control form-control-sm me-2" type="search" placeholder="Pesquisar...">
+          <button class="btn btn-info btn-sm fw-bold" type="button">Buscar</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <h6 class="fw-bold text-uppercase text-muted mb-2">2. Navbar Clara com Botões de Ação (<code>.bg-white.border</code>)</h6>
+  <nav class="navbar navbar-expand-lg bg-white border rounded-3 shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-primary" href="../index.html"><i class="bi bi-layers-fill me-1"></i>Portal Web</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navModelo2">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navModelo2">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link active fw-semibold" href="container.html">Containers</a></li>
+          <li class="nav-item"><a class="nav-link" href="navbar.html">Navbars</a></li>
+          <li class="nav-item"><a class="nav-link" href="grid.html">Grid System</a></li>
+        </ul>
+        <div class="d-flex gap-2">
+          <a href="../infografico.html" class="btn btn-outline-primary btn-sm">Infográfico</a>
+          <a href="../index.html" class="btn btn-primary btn-sm">Início</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

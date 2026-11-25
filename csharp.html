@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas Dev: C# 15 (.NET 11) — Referência Completa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <style>
+    :root { --cor-primaria:#0f3d4d; --cor-acento:#14b8a6; }
+    body { font-family:'Segoe UI', system-ui, sans-serif; scroll-behavior:smooth; background:#f8fafc; }
+    .navbar-atlas {
+      background: rgba(10, 25, 36, 0.94) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(20, 184, 166, 0.28);
+      padding: 0.7rem 0;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+      color: #071921; font-weight: 800; padding: 0.38rem 0.8rem;
+      border-radius: 10px; display: inline-flex; align-items: center; gap: 0.4rem;
+      box-shadow: 0 4px 14px rgba(20, 184, 166, 0.35);
+      transition: transform .2s ease;
+    }
+    .brand-badge:hover { transform: translateY(-1px); }
+    .navbar-atlas .nav-link {
+      color: #cbd5e1 !important; font-weight: 600; font-size: 0.88rem;
+      padding: 0.42rem 0.75rem !important; border-radius: 8px;
+      margin: 0 2px; transition: all .2s ease;
+    }
+    .navbar-atlas .nav-link:hover {
+      color: #fff !important; background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+    .navbar-atlas .nav-link.active {
+      color: #071921 !important; background: #14b8a6 !important;
+      box-shadow: 0 4px 12px rgba(20, 184, 166, 0.4);
+    }
+    .btn-infografico {
+      background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+      color: #061820 !important; font-weight: 700; font-size: 0.85rem;
+      border: none; border-radius: 999px; padding: 0.45rem 1rem;
+      box-shadow: 0 4px 15px rgba(20, 184, 166, 0.35);
+      transition: all .22s ease;
+    }
+    .btn-infografico:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(20, 184, 166, 0.55);
+    }
+    .hero-bg {
+      background: linear-gradient(135deg, #0b2d39 0%, #114756 52%, #14b8a6 130%);
+      color:#fff; padding:5rem 0 4.2rem; position:relative; overflow:hidden;
+    }
+    .hero-bg::after {
+      content:''; position:absolute; inset:0; opacity:.08;
+      background-image: radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px),
+                        radial-gradient(circle at 80% 20%, #fff 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .btn-hero-primary {
+      background: #fff; color: #0f3d4d; font-weight: 700; border: none;
+      border-radius: 12px; padding: 0.75rem 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22); transition: all .22s ease;
+    }
+    .btn-hero-primary:hover { background: #f0fdfa; color: #0b2d39; transform: translateY(-3px); }
+    .btn-hero-outline {
+      background: rgba(255, 255, 255, 0.08); color: #fff; font-weight: 600;
+      border: 1.5px solid rgba(255, 255, 255, 0.45); border-radius: 12px;
+      padding: 0.75rem 1.5rem; backdrop-filter: blur(4px); transition: all .22s ease;
+    }
+    .btn-hero-outline:hover { background: rgba(255, 255, 255, 0.18); color: #fff; border-color: #fff; transform: translateY(-3px); }
+    .section-title { position:relative; display:inline-block; padding-bottom:.5rem; margin-bottom:1.5rem; }
+    .section-title::after { content:''; position:absolute; left:0; bottom:0; width:60px; height:4px; background:var(--cor-acento); border-radius:2px; }
+    .stat-card { transition:transform .2s, box-shadow .2s; border:none; border-radius:16px; }
+    .stat-card:hover { transform:translateY(-5px); box-shadow:0 12px 30px rgba(15,61,77,.15); }
+    .stat-num { font-size:2.4rem; font-weight:800; color:var(--cor-acento); line-height:1; }
+    .padlet-wrap { background:#f4f1ea; border-radius:18px; padding:2rem; }
+    .sticky-note {
+      background:#fff9c4; padding:1.2rem 1rem; border-radius:6px;
+      box-shadow:2px 4px 10px rgba(0,0,0,.1); transform:rotate(-1deg);
+      min-height:140px; position:relative; transition:transform .18s;
+    }
+    .sticky-note:nth-child(even){ background:#c8e6c9; transform:rotate(1.2deg); }
+    .sticky-note:nth-child(3n){ background:#bbdefb; transform:rotate(-.7deg); }
+    .sticky-note:hover { transform:rotate(0) scale(1.04); z-index:2; }
+    .sticky-note .pin { position:absolute; top:-8px; left:50%; transform:translateX(-50%); width:16px; height:16px; background:#ef5350; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,.3); }
+    .sticky-note h6 { font-weight:700; color:#1a1a1a; margin-bottom:.5rem; font-size:.95rem; }
+    .sticky-note p { font-size:.82rem; color:#333; line-height:1.45; margin:0; }
+    pre code { border-radius:12px; font-size:.85rem; }
+    .code-wrap { position:relative; }
+    .btn-copy { position:absolute; top:.55rem; right:.55rem; z-index:5; border-radius:8px; }
+    .ref-card { border-left:4px solid var(--cor-acento); border-radius:14px; transition:transform .2s; }
+    .ref-card:hover { transform:translateY(-3px); }
+    footer { background:#071b24; color:#9fb3ba; }
+    footer a { color:#14b8a6; text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-atlas sticky-top shadow">
+  <div class="container">
+    <a class="navbar-brand text-decoration-none" href="index.html">
+      <span class="brand-badge"><i class="bi bi-terminal-fill"></i> ATLAS DEV</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navAtlas">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navAtlas">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-cup-hot me-1"></i>Java</a></li>
+        <li class="nav-item"><a class="nav-link active" href="csharp.html"><i class="bi bi-hash me-1"></i>C# 15</a></li>
+        <li class="nav-item"><a class="nav-link" href="python.html"><i class="bi bi-filetype-py me-1"></i>Python</a></li>
+        <li class="nav-item"><a class="nav-link" href="c.html"><i class="bi bi-cpu me-1"></i>C23</a></li>
+        <li class="nav-item"><a class="nav-link" href="cpp.html"><i class="bi bi-speedometer2 me-1"></i>C++26</a></li>
+        <li class="nav-item"><a class="nav-link" href="html.html"><i class="bi bi-filetype-html me-1"></i>HTML5</a></li>
+        <li class="nav-item"><a class="nav-link" href="css.html"><i class="bi bi-filetype-css me-1"></i>CSS3</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <input id="filtroBusca" class="form-control form-control-sm bg-dark text-white border-secondary" style="width:185px; border-radius:999px; padding-left:0.9rem;" type="search" placeholder="Filtrar comandos...">
+        <a class="btn btn-infografico" href="infografico.html">
+          <i class="bi bi-diagram-3-fill me-1"></i>Infográfico Web
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero-bg">
+  <div class="container position-relative" style="z-index:2">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <span class="badge bg-info text-dark mb-3">ECOSSISTEMA .NET 11 • C# 15</span>
+        <h1 class="display-4 fw-bold mb-3">Linguagem <span class="text-info">C#</span></h1>
+        <p class="lead fs-5 opacity-90 mb-4">
+          Linguagem multiparadigma moderna da Microsoft: tipos de valor e referência, <code>LINQ</code>,
+          assincronia nativa (<code>async/await</code>), <code>record</code>, Pattern Matching e Native AOT.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="#palavras" class="btn btn-hero-primary"><i class="bi bi-journal-code me-2"></i>Explorar Códigos</a>
+          <a href="infografico.html" class="btn btn-hero-outline"><i class="bi bi-diagram-3 me-2"></i>Ver Infográfico Web</a>
+        </div>
+      </div>
+      <div class="col-lg-4 text-center d-none d-lg-block">
+        <i class="bi bi-microsoft" style="font-size:10rem; opacity:.85"></i>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">C# em Números</h2>
+    <div class="row g-4">
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">15</div><div class="fw-semibold mt-1">Versão Atual</div><small class="text-muted">Integrada ao .NET 11</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">128b</div><div class="fw-semibold mt-1">Tipo decimal</div><small class="text-muted">Precisão financeira nativa</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">LINQ</div><div class="fw-semibold mt-1">Consultas Integradas</div><small class="text-muted">Memória, SQL, XML e JSON</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">AOT</div><div class="fw-semibold mt-1">Native AOT</div><small class="text-muted">Binário nativo sem JIT</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">Quadro Rápido — Conceitos-Chave do C#</h2>
+    <div class="padlet-wrap">
+      <div class="row g-3">
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>Value vs Reference</h6><p><code>struct</code>, <code>int</code> e <code>decimal</code> vivem na Stack; <code>class</code> e <code>string</code> vivem na Heap gerenciada.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>Null Safety (T?)</h6><p>Nullable Reference Types detectam possíveis <code>NullReferenceException</code> antes de compilar.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>LINQ</h6><p><code>Where</code>, <code>Select</code>, <code>OrderBy</code> e <code>GroupBy</code> unificam consultas em qualquer fonte.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>async / await</h6><p>Máquina de estados gerada pelo compilador sobre <code>Task&lt;T&gt;</code> sem travar threads.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="palavras" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">1. Palavras Reservadas e Estruturas</h2>
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-dark"><tr><th>Categoria</th><th>Palavras-chave</th></tr></thead>
+          <tbody>
+            <tr><td class="fw-semibold">Tipos Embutidos</td><td><code>bool, byte, sbyte, short, ushort, int, uint, long, ulong, float, double, decimal, char, string, object, dynamic, void</code></td></tr>
+            <tr><td class="fw-semibold">Modificadores</td><td><code>public, private, protected, internal, static, readonly, const, sealed, abstract, virtual, override, partial, required</code></td></tr>
+            <tr><td class="fw-semibold">Estruturas e Fluxo</td><td><code>class, struct, record, interface, enum, delegate, event, if, else, switch, for, foreach, while, do, try, catch, finally, using</code></td></tr>
+            <tr><td class="fw-semibold">Contextuais</td><td><code>var, async, await, yield, init, with, when, nameof, sizeof, typeof, from, where, select</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary"><code>record / struct / init / with</code></h5>
+          <p class="small text-muted">Tipos imutáveis com mutação não-destrutiva via expressão <code>with</code>.</p>
+          <div class="code-wrap">
+<pre><code class="language-csharp">public record Produto(string Nome, decimal Preco);
+
+var p1 = new Produto("Teclado Mecânico", 350.00m);
+var p2 = p1 with { Preco = 299.90m };</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Operadores Nulos (<code>?.</code>, <code>??</code>, <code>??=</code>) e Ranges</h5>
+          <p class="small text-muted">Acesso seguro a nulos e fatiamento moderno de arrays/spans.</p>
+          <div class="code-wrap">
+<pre><code class="language-csharp">string? apelido = null;
+int tamanho = apelido?.Length ?? 0;
+apelido ??= "Convidado";
+
+int[] nums = [10, 20, 30, 40, 50];
+int[] fatia = nums[1..4]; // [20, 30, 40]
+int ultimo = nums[^1];    // 50</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="linq-async" class="py-5">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">2. Pattern Matching, LINQ e Programação Assíncrona</h2>
+    <div class="row g-4">
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Switch Expression &amp; LINQ</h5>
+          <p class="small text-muted">Padrões relacionais e consultas funcionais encadeadas.</p>
+          <div class="code-wrap">
+<pre><code class="language-csharp">string Avaliar(double n) => n switch {
+    >= 9.0 => "Excelente",
+    >= 7.0 and < 9.0 => "Aprovado",
+    _ => "Recuperação"
+};
+
+int[] vals = [1, 2, 3, 4, 5, 6];
+var pares = vals.Where(x => x % 2 == 0).Select(x => x * 10).ToList();</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary"><code>async / await / Task&lt;T&gt;</code></h5>
+          <p class="small text-muted">Requisições HTTP assíncronas com <code>HttpClient</code>.</p>
+          <div class="code-wrap">
+<pre><code class="language-csharp">public async Task&lt;string&gt; ObterJsonAsync(HttpClient http, string url)
+{
+    using var resp = await http.GetAsync(url);
+    resp.EnsureSuccessStatusCode();
+    return await resp.Content.ReadAsStringAsync();
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stdlib-csharp" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">3. Biblioteca Padrão: JSON, Minimal APIs e Span&lt;T&gt;</h2>
+    <div class="row g-4">
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Serialização Nativa com <code>System.Text.Json</code></h5>
+          <p class="small text-muted">Conversão rápida de objetos C# para JSON sem dependências externas.</p>
+          <div class="code-wrap">
+<pre><code class="language-csharp">using System.Text.Json;
+
+var curso = new { Nome = "Desenvolvimento Web", CargaHoraria = 120 };
+string json = JsonSerializer.Serialize(curso);
+Console.WriteLine(json); // {"Nome":"Desenvolvimento Web","CargaHoraria":120}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Minimal APIs no ASP.NET Core</h5>
+          <p class="small text-muted">Criação de endpoints REST enxutos em poucas linhas.</p>
+          <div class="code-wrap">
+<pre><code class="language-csharp">var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.MapGet("/api/status", () => Results.Ok(new { online = true, versao = "C# 15" }));
+app.Run();</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="py-4">
+  <div class="container text-center small">
+    <p class="mb-1 fw-bold text-white"><i class="bi bi-terminal-fill text-info me-1"></i>Atlas Dev — Referência Completa de Linguagens</p>
+    <p class="mb-0">Navegue: <a href="index.html">Java</a> · <a href="csharp.html">C#</a> · <a href="python.html">Python</a> · <a href="c.html">C</a> · <a href="cpp.html">C++</a> · <a href="html.html">HTML</a> · <a href="css.html">CSS</a> · <a href="infografico.html">Infográfico Web</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  hljs.highlightAll();
+  document.querySelectorAll('.code-wrap').forEach(w => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-sm btn-outline-light btn-copy';
+    btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar';
+    btn.onclick = async () => {
+      await navigator.clipboard.writeText(w.querySelector('pre').innerText);
+      btn.innerHTML = '<i class="bi bi-check2"></i> Copiado!';
+      setTimeout(() => btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar', 1500);
+    };
+    w.appendChild(btn);
+  });
+  document.getElementById('filtroBusca').addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll('.search-item').forEach(el => {
+      el.style.display = el.innerText.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+</script>
+</body>
+</html>

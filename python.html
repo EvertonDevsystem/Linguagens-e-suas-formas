@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas Dev: Python 3.15 — Referência Completa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <style>
+    :root { --cor-primaria:#0f3d4d; --cor-acento:#14b8a6; }
+    body { font-family:'Segoe UI', system-ui, sans-serif; scroll-behavior:smooth; background:#f8fafc; }
+    .navbar-atlas {
+      background: rgba(10, 25, 36, 0.94) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(20, 184, 166, 0.28);
+      padding: 0.7rem 0;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+      color: #071921; font-weight: 800; padding: 0.38rem 0.8rem;
+      border-radius: 10px; display: inline-flex; align-items: center; gap: 0.4rem;
+      box-shadow: 0 4px 14px rgba(20, 184, 166, 0.35);
+      transition: transform .2s ease;
+    }
+    .brand-badge:hover { transform: translateY(-1px); }
+    .navbar-atlas .nav-link {
+      color: #cbd5e1 !important; font-weight: 600; font-size: 0.88rem;
+      padding: 0.42rem 0.75rem !important; border-radius: 8px;
+      margin: 0 2px; transition: all .2s ease;
+    }
+    .navbar-atlas .nav-link:hover {
+      color: #fff !important; background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+    .navbar-atlas .nav-link.active {
+      color: #071921 !important; background: #14b8a6 !important;
+      box-shadow: 0 4px 12px rgba(20, 184, 166, 0.4);
+    }
+    .btn-infografico {
+      background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+      color: #061820 !important; font-weight: 700; font-size: 0.85rem;
+      border: none; border-radius: 999px; padding: 0.45rem 1rem;
+      box-shadow: 0 4px 15px rgba(20, 184, 166, 0.35);
+      transition: all .22s ease;
+    }
+    .btn-infografico:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(20, 184, 166, 0.55);
+    }
+    .hero-bg {
+      background: linear-gradient(135deg, #0b2d39 0%, #114756 52%, #14b8a6 130%);
+      color:#fff; padding:5rem 0 4.2rem; position:relative; overflow:hidden;
+    }
+    .hero-bg::after {
+      content:''; position:absolute; inset:0; opacity:.08;
+      background-image: radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px),
+                        radial-gradient(circle at 80% 20%, #fff 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .btn-hero-primary {
+      background: #fff; color: #0f3d4d; font-weight: 700; border: none;
+      border-radius: 12px; padding: 0.75rem 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22); transition: all .22s ease;
+    }
+    .btn-hero-primary:hover { background: #f0fdfa; color: #0b2d39; transform: translateY(-3px); }
+    .btn-hero-outline {
+      background: rgba(255, 255, 255, 0.08); color: #fff; font-weight: 600;
+      border: 1.5px solid rgba(255, 255, 255, 0.45); border-radius: 12px;
+      padding: 0.75rem 1.5rem; backdrop-filter: blur(4px); transition: all .22s ease;
+    }
+    .btn-hero-outline:hover { background: rgba(255, 255, 255, 0.18); color: #fff; border-color: #fff; transform: translateY(-3px); }
+    .section-title { position:relative; display:inline-block; padding-bottom:.5rem; margin-bottom:1.5rem; }
+    .section-title::after { content:''; position:absolute; left:0; bottom:0; width:60px; height:4px; background:var(--cor-acento); border-radius:2px; }
+    .stat-card { transition:transform .2s, box-shadow .2s; border:none; border-radius:16px; }
+    .stat-card:hover { transform:translateY(-5px); box-shadow:0 12px 30px rgba(15,61,77,.15); }
+    .stat-num { font-size:2.4rem; font-weight:800; color:var(--cor-acento); line-height:1; }
+    .padlet-wrap { background:#f4f1ea; border-radius:18px; padding:2rem; }
+    .sticky-note {
+      background:#fff9c4; padding:1.2rem 1rem; border-radius:6px;
+      box-shadow:2px 4px 10px rgba(0,0,0,.1); transform:rotate(-1deg);
+      min-height:140px; position:relative; transition:transform .18s;
+    }
+    .sticky-note:nth-child(even){ background:#c8e6c9; transform:rotate(1.2deg); }
+    .sticky-note:nth-child(3n){ background:#bbdefb; transform:rotate(-.7deg); }
+    .sticky-note:hover { transform:rotate(0) scale(1.04); z-index:2; }
+    .sticky-note .pin { position:absolute; top:-8px; left:50%; transform:translateX(-50%); width:16px; height:16px; background:#ef5350; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,.3); }
+    .sticky-note h6 { font-weight:700; color:#1a1a1a; margin-bottom:.5rem; font-size:.95rem; }
+    .sticky-note p { font-size:.82rem; color:#333; line-height:1.45; margin:0; }
+    pre code { border-radius:12px; font-size:.85rem; }
+    .code-wrap { position:relative; }
+    .btn-copy { position:absolute; top:.55rem; right:.55rem; z-index:5; border-radius:8px; }
+    .ref-card { border-left:4px solid var(--cor-acento); border-radius:14px; transition:transform .2s; }
+    .ref-card:hover { transform:translateY(-3px); }
+    footer { background:#071b24; color:#9fb3ba; }
+    footer a { color:#14b8a6; text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-atlas sticky-top shadow">
+  <div class="container">
+    <a class="navbar-brand text-decoration-none" href="index.html">
+      <span class="brand-badge"><i class="bi bi-terminal-fill"></i> ATLAS DEV</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navAtlas">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navAtlas">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-cup-hot me-1"></i>Java</a></li>
+        <li class="nav-item"><a class="nav-link" href="csharp.html"><i class="bi bi-hash me-1"></i>C# 15</a></li>
+        <li class="nav-item"><a class="nav-link active" href="python.html"><i class="bi bi-filetype-py me-1"></i>Python</a></li>
+        <li class="nav-item"><a class="nav-link" href="c.html"><i class="bi bi-cpu me-1"></i>C23</a></li>
+        <li class="nav-item"><a class="nav-link" href="cpp.html"><i class="bi bi-speedometer2 me-1"></i>C++26</a></li>
+        <li class="nav-item"><a class="nav-link" href="html.html"><i class="bi bi-filetype-html me-1"></i>HTML5</a></li>
+        <li class="nav-item"><a class="nav-link" href="css.html"><i class="bi bi-filetype-css me-1"></i>CSS3</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <input id="filtroBusca" class="form-control form-control-sm bg-dark text-white border-secondary" style="width:185px; border-radius:999px; padding-left:0.9rem;" type="search" placeholder="Filtrar comandos...">
+        <a class="btn btn-infografico" href="infografico.html">
+          <i class="bi bi-diagram-3-fill me-1"></i>Infográfico Web
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero-bg">
+  <div class="container position-relative" style="z-index:2">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <span class="badge bg-info text-dark mb-3">VERSÃO 3.15 • DATA SCIENCE, IA &amp; BACKEND</span>
+        <h1 class="display-4 fw-bold mb-3">Linguagem <span class="text-info">Python</span></h1>
+        <p class="lead fs-5 opacity-90 mb-4">
+          Sintaxe limpa baseada em indentação, tipagem dinâmica e forte com Type Hints,
+          Comprehensions, Structural Pattern Matching (<code>match/case</code>), Geradores e <code>asyncio</code>.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="#palavras" class="btn btn-hero-primary"><i class="bi bi-journal-code me-2"></i>Explorar Códigos</a>
+          <a href="infografico.html" class="btn btn-hero-outline"><i class="bi bi-diagram-3 me-2"></i>Ver Infográfico Web</a>
+        </div>
+      </div>
+      <div class="col-lg-4 text-center d-none d-lg-block">
+        <i class="bi bi-filetype-py" style="font-size:10rem; opacity:.85"></i>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">Python em Números</h2>
+    <div class="row g-4">
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">35</div><div class="fw-semibold mt-1">Palavras Reservadas</div><small class="text-muted">Sintaxe minimalista e legível</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">∞</div><div class="fw-semibold mt-1">Precisão Inteira</div><small class="text-muted">Inteiros sem limite de bits</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">+500k</div><div class="fw-semibold mt-1">Pacotes no PyPI</div><small class="text-muted">IA, Web, Dados e Automação</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">JIT</div><div class="fw-semibold mt-1">CPython 3.15</div><small class="text-muted">Otimização e modo Free-Threaded</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">Quadro Rápido — Conceitos-Chave do Python</h2>
+    <div class="padlet-wrap">
+      <div class="row g-3">
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>Comprehensions</h6><p>Cria listas, dicts e sets em uma linha: <code>[x**2 for x in nums if x % 2 == 0]</code>.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>Geradores (yield)</h6><p>Produzem valores sob demanda sem carregar milhões de itens na RAM.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>Decoradores (@)</h6><p>Envolvem funções e classes para adicionar logs, cache ou autenticação.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>Context Managers</h6><p>Bloco <code>with</code> garante fechamento seguro de arquivos e conexões.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="palavras" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">1. Palavras Reservadas e Funções</h2>
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-dark"><tr><th>Categoria</th><th>Palavras-chave</th></tr></thead>
+          <tbody>
+            <tr><td class="fw-semibold">Valores e Lógica</td><td><code>True, False, None, and, or, not, is, in</code></td></tr>
+            <tr><td class="fw-semibold">Controle de Fluxo</td><td><code>if, elif, else, for, while, break, continue, pass, match, case</code></td></tr>
+            <tr><td class="fw-semibold">Funções e Classes</td><td><code>def, return, yield, lambda, class, async, await</code></td></tr>
+            <tr><td class="fw-semibold">Exceções e Contexto</td><td><code>try, except, finally, raise, assert, with, as</code></td></tr>
+            <tr><td class="fw-semibold">Escopo e Módulos</td><td><code>import, from, global, nonlocal, del, type</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary"><code>def / *args / **kwargs / Type Hints</code></h5>
+          <p class="small text-muted">Argumentos posicionais variáveis, nomeados e anotações de tipo.</p>
+          <div class="code-wrap">
+<pre><code class="language-python">def resumir_pedido(cliente: str, *itens: str, **valores: float) -> dict:
+    return {
+        "cliente": cliente,
+        "qtd": len(itens),
+        "total": sum(valores.values()),
+    }
+
+print(resumir_pedido("Ana", "Livro", "Café", frete=12.5, itens=80.0))</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">F-Strings, Slicing e Walrus Operator (<code>:=</code>)</h5>
+          <p class="small text-muted">Interpolação expressiva, fatiamento e atribuição em expressões.</p>
+          <div class="code-wrap">
+<pre><code class="language-python">dados = [10, 20, 30, 40, 50, 60]
+pares = dados[::2]        # [10, 30, 50]
+invertido = dados[::-1]   # [60, 50, 40, 30, 20, 10]
+
+if (n := len(dados)) > 3:
+    print(f"Total: {n} | Média: {sum(dados)/n:.2f}")</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="estruturas-stdlib" class="py-5">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">2. Pattern Matching, Dataclasses e Asyncio</h2>
+    <div class="row g-4">
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary"><code>match / case</code> (Structural Pattern Matching)</h5>
+          <p class="small text-muted">Desestruturação estrutural de dicionários e sequências.</p>
+          <div class="code-wrap">
+<pre><code class="language-python">def processar_evento(evento: dict) -> str:
+    match evento:
+        case {"tipo": "clique", "x": x, "y": y}:
+            return f"Clique em ({x}, {y})"
+        case {"tipo": "tecla", "codigo": 27}:
+            return "ESC pressionado"
+        case _:
+            return "Evento desconhecido"</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary"><code>@dataclass</code>, Geradores &amp; <code>asyncio</code></h5>
+          <p class="small text-muted">Modelos imutáveis, avaliação preguiçosa e corrotinas concorrentes.</p>
+          <div class="code-wrap">
+<pre><code class="language-python">from dataclasses import dataclass
+import asyncio
+
+@dataclass(frozen=True)
+class Usuario:
+    nome: str
+    admin: bool = False
+
+async def buscar(id_user: int) -> Usuario:
+    await asyncio.sleep(0.1)
+    return Usuario(f"User-{id_user}", admin=(id_user == 1))</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stdlib-python" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">3. Biblioteca Padrão: Comprehensions, Pathlib e JSON</h2>
+    <div class="row g-4">
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">List &amp; Dict Comprehensions</h5>
+          <p class="small text-muted">Filtragem e transformação expressiva de coleções.</p>
+          <div class="code-wrap">
+<pre><code class="language-python">langs = ["Java", "Python", "C", "C++", "C#"]
+tamanhos = {lang: len(lang) for lang in langs if len(lang) >= 3}
+# {'Java': 4, 'Python': 6, 'C++': 3}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Arquivos com <code>pathlib</code> e <code>json</code></h5>
+          <p class="small text-muted">Leitura e gravação multiplataforma orientada a objetos.</p>
+          <div class="code-wrap">
+<pre><code class="language-python">from pathlib import Path
+import json
+
+arq = Path("config.json")
+arq.write_text(json.dumps({"tema": "dark", "ativo": True}, indent=2), encoding="utf-8")
+dados = json.loads(arq.read_text(encoding="utf-8"))</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="py-4">
+  <div class="container text-center small">
+    <p class="mb-1 fw-bold text-white"><i class="bi bi-terminal-fill text-info me-1"></i>Atlas Dev — Referência Completa de Linguagens</p>
+    <p class="mb-0">Navegue: <a href="index.html">Java</a> · <a href="csharp.html">C#</a> · <a href="python.html">Python</a> · <a href="c.html">C</a> · <a href="cpp.html">C++</a> · <a href="html.html">HTML</a> · <a href="css.html">CSS</a> · <a href="infografico.html">Infográfico Web</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  hljs.highlightAll();
+  document.querySelectorAll('.code-wrap').forEach(w => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-sm btn-outline-light btn-copy';
+    btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar';
+    btn.onclick = async () => {
+      await navigator.clipboard.writeText(w.querySelector('pre').innerText);
+      btn.innerHTML = '<i class="bi bi-check2"></i> Copiado!';
+      setTimeout(() => btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar', 1500);
+    };
+    w.appendChild(btn);
+  });
+  document.getElementById('filtroBusca').addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll('.search-item').forEach(el => {
+      el.style.display = el.innerText.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas Dev: Infográfico Web — DOM, API, JSON &amp; Bootstrap</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <style>
+    :root { --cor-primaria:#0f3d4d; --cor-acento:#14b8a6; }
+    body { font-family:'Segoe UI', system-ui, sans-serif; scroll-behavior:smooth; background:#f8fafc; }
+    .navbar-atlas {
+      background: rgba(10, 25, 36, 0.94) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(20, 184, 166, 0.28);
+      padding: 0.7rem 0;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+      color: #071921; font-weight: 800; padding: 0.38rem 0.8rem;
+      border-radius: 10px; display: inline-flex; align-items: center; gap: 0.4rem;
+      box-shadow: 0 4px 14px rgba(20, 184, 166, 0.35);
+    }
+    .navbar-atlas .nav-link {
+      color: #cbd5e1 !important; font-weight: 600; font-size: 0.88rem;
+      padding: 0.42rem 0.75rem !important; border-radius: 8px;
+      margin: 0 2px; transition: all .2s ease;
+    }
+    .navbar-atlas .nav-link:hover {
+      color: #fff !important; background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+    .btn-infografico {
+      background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+      color: #061820 !important; font-weight: 800; font-size: 0.85rem;
+      border: 2px solid #fff; border-radius: 999px; padding: 0.42rem 1rem;
+      box-shadow: 0 4px 18px rgba(20, 184, 166, 0.55);
+    }
+    .hero-bg {
+      background: linear-gradient(135deg, #0b2d39 0%, #114756 52%, #14b8a6 130%);
+      color:#fff; padding:5rem 0 4.2rem; position:relative; overflow:hidden;
+    }
+    .hero-bg::after {
+      content:''; position:absolute; inset:0; opacity:.08;
+      background-image: radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px),
+                        radial-gradient(circle at 80% 20%, #fff 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .btn-hero-primary {
+      background: #fff; color: #0f3d4d; font-weight: 700; border: none;
+      border-radius: 12px; padding: 0.75rem 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22); transition: all .22s ease;
+    }
+    .btn-hero-primary:hover { background: #f0fdfa; transform: translateY(-3px); }
+    .btn-hero-outline {
+      background: rgba(255, 255, 255, 0.08); color: #fff; font-weight: 600;
+      border: 1.5px solid rgba(255, 255, 255, 0.45); border-radius: 12px;
+      padding: 0.75rem 1.5rem; transition: all .22s ease;
+    }
+    .btn-hero-outline:hover { background: rgba(255, 255, 255, 0.18); color: #fff; transform: translateY(-3px); }
+    .section-title { position:relative; display:inline-block; padding-bottom:.5rem; margin-bottom:1.5rem; }
+    .section-title::after { content:''; position:absolute; left:0; bottom:0; width:60px; height:4px; background:var(--cor-acento); border-radius:2px; }
+    .stat-card { transition:transform .2s, box-shadow .2s; border:none; border-radius:16px; }
+    .stat-card:hover { transform:translateY(-5px); box-shadow:0 12px 30px rgba(15,61,77,.15); }
+    .stat-num { font-size:2.4rem; font-weight:800; color:var(--cor-acento); line-height:1; }
+    .padlet-wrap { background:#f4f1ea; border-radius:18px; padding:2rem; }
+    .sticky-note {
+      background:#fff9c4; padding:1.2rem 1rem; border-radius:6px;
+      box-shadow:2px 4px 10px rgba(0,0,0,.1); transform:rotate(-1deg);
+      min-height:140px; position:relative; transition:transform .18s;
+    }
+    .sticky-note:nth-child(even){ background:#c8e6c9; transform:rotate(1.2deg); }
+    .sticky-note:nth-child(3n){ background:#bbdefb; transform:rotate(-.7deg); }
+    .sticky-note:hover { transform:rotate(0) scale(1.04); z-index:2; }
+    .sticky-note .pin { position:absolute; top:-8px; left:50%; transform:translateX(-50%); width:16px; height:16px; background:#ef5350; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,.3); }
+    .sticky-note h6 { font-weight:700; color:#1a1a1a; margin-bottom:.5rem; font-size:.95rem; }
+    .sticky-note p { font-size:.82rem; color:#333; line-height:1.45; margin:0; }
+    .dom-tree ul { list-style:none; padding-left:1.3rem; border-left:2px dashed #14b8a6; }
+    .dom-node {
+      display:inline-block; padding:.25rem .6rem; margin:.2rem 0; border-radius:6px;
+      background:#e0f7f4; color:#0f3d4d; font-family:monospace; font-weight:700; cursor:pointer;
+      border:1px solid #14b8a6; transition:.15s;
+    }
+    .dom-node:hover { background:#14b8a6; color:#fff; }
+    .demo-frame { border:2px dashed #14b8a6; border-radius:12px; padding:1rem; background:#f8fdfc; }
+    .ref-card { border-left:4px solid var(--cor-acento); border-radius:14px; transition:transform .2s; }
+    .ref-card:hover { transform:translateY(-3px); }
+    pre code { border-radius:12px; font-size:.85rem; }
+    .code-wrap { position:relative; }
+    .btn-copy { position:absolute; top:.55rem; right:.55rem; z-index:5; border-radius:8px; }
+    footer { background:#071b24; color:#9fb3ba; }
+    footer a { color:#14b8a6; text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-atlas sticky-top shadow">
+  <div class="container">
+    <a class="navbar-brand text-decoration-none" href="index.html">
+      <span class="brand-badge"><i class="bi bi-terminal-fill"></i> ATLAS DEV</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navAtlas">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navAtlas">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-cup-hot me-1"></i>Java</a></li>
+        <li class="nav-item"><a class="nav-link" href="csharp.html"><i class="bi bi-hash me-1"></i>C# 15</a></li>
+        <li class="nav-item"><a class="nav-link" href="python.html"><i class="bi bi-filetype-py me-1"></i>Python</a></li>
+        <li class="nav-item"><a class="nav-link" href="c.html"><i class="bi bi-cpu me-1"></i>C23</a></li>
+        <li class="nav-item"><a class="nav-link" href="cpp.html"><i class="bi bi-speedometer2 me-1"></i>C++26</a></li>
+        <li class="nav-item"><a class="nav-link" href="html.html"><i class="bi bi-filetype-html me-1"></i>HTML5</a></li>
+        <li class="nav-item"><a class="nav-link" href="css.html"><i class="bi bi-filetype-css me-1"></i>CSS3</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <a class="btn btn-infografico" href="infografico.html">
+          <i class="bi bi-diagram-3-fill me-1"></i>Infográfico Web
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero-bg">
+  <div class="container position-relative" style="z-index:2">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <span class="badge bg-info text-dark mb-3">INFOGRÁFICO INTERATIVO • ARQUITETURA WEB</span>
+        <h1 class="display-4 fw-bold mb-3"><span class="text-info">DOM · API · JSON</span> &amp; Bootstrap</h1>
+        <p class="lead fs-5 opacity-90 mb-4">
+          Entenda como o navegador transforma HTML em árvore de objetos (DOM), comunica-se com servidores
+          via APIs REST/JSON e constrói interfaces responsivas com Bootstrap 5.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="#sec-dom" class="btn btn-hero-primary"><i class="bi bi-diagram-3 me-2"></i>Árvore DOM</a>
+          <a href="#sec-api" class="btn btn-hero-outline"><i class="bi bi-arrow-left-right me-2"></i>API &amp; JSON</a>
+          <a href="#sec-bootstrap" class="btn btn-hero-outline"><i class="bi bi-bootstrap-fill me-2"></i>Bootstrap 5</a>
+          <a href="#sec-exemplos" class="btn btn-hero-outline"><i class="bi bi-window-stack me-2"></i>Páginas Exemplares</a>
+        </div>
+      </div>
+      <div class="col-lg-4 text-center d-none d-lg-block">
+        <i class="bi bi-diagram-3-fill" style="font-size:10rem; opacity:.85"></i>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">Ecossistema Web em Números</h2>
+    <div class="row g-4">
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">DOM</div><div class="fw-semibold mt-1">Árvore Viva</div><small class="text-muted">Nós HTML manipulados via JS</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">REST</div><div class="fw-semibold mt-1">GET · POST · PUT · DELETE</div><small class="text-muted">Comunicação HTTP stateless</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">6</div><div class="fw-semibold mt-1">Tipos no JSON</div><small class="text-muted">string, number, bool, null, {}, []</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">12</div><div class="fw-semibold mt-1">Colunas Bootstrap</div><small class="text-muted">Grid responsivo mobile-first</small></div></div>
+    </div>
+
+    <div class="padlet-wrap mt-4">
+      <div class="row g-3">
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>1. DOM</h6><p>Interface que conecta HTML ao JavaScript via <code>querySelector</code>, <code>createElement</code> e <code>addEventListener</code>.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>2. API REST</h6><p>Contrato HTTP onde o front-end envia requisições (<code>fetch</code>) e o back-end responde com status e dados.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>3. JSON</h6><p>Formato universal leve baseado em chave-valor com aspas duplas para trafegar dados entre linguagens.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>4. Bootstrap 5</h6><p>Framework CSS/JS com containers, grid de 12 colunas e componentes prontos sem escrever CSS do zero.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 1. DOM -->
+<section id="sec-dom" class="py-5">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">1. DOM (Document Object Model) — Árvore &amp; Exemplos</h2>
+    <div class="row g-4 mb-4">
+      <div class="col-lg-6">
+        <div class="card border-0 shadow-sm p-4 h-100 dom-tree">
+          <h5 class="fw-bold"><i class="bi bi-diagram-2 text-info me-2"></i>Clique em um nó para inspecionar:</h5>
+          <ul class="mt-2">
+            <li><span class="dom-node" data-info="Objeto raiz global da página (window.document).">document</span>
+              <ul>
+                <li><span class="dom-node" data-info="Elemento raiz &lt;html&gt; acessível via document.documentElement.">&lt;html&gt;</span>
+                  <ul>
+                    <li><span class="dom-node" data-info="Metadados, título e folhas de estilo (&lt;head&gt;).">&lt;head&gt;</span></li>
+                    <li><span class="dom-node" data-info="Conteúdo visível na janela (document.body).">&lt;body&gt;</span>
+                      <ul>
+                        <li><span class="dom-node" data-info="Contêiner selecionado com document.querySelector('#app').">&lt;div id="app"&gt;</span>
+                          <ul>
+                            <li><span class="dom-node" data-info="Título alterado dinamicamente via el.textContent = 'Novo'.">&lt;h1&gt;Olá DOM&lt;/h1&gt;</span></li>
+                            <li><span class="dom-node" data-info="Botão que reage a cliques com btn.addEventListener('click', fn).">&lt;button class="btn"&gt;Clique&lt;/button&gt;</span></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <div id="domInfo" class="alert alert-info mt-3 mb-0 small fw-semibold">
+            Clique em qualquer nó verde acima para ver sua função no DOM.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold">Exemplo A: Criar, Inserir e Remover Elementos</h5>
+          <div class="code-wrap">
+<pre><code class="language-javascript">// 1. Selecionar elementos
+const app = document.querySelector("#app");
+const botoes = document.querySelectorAll(".btn");
+
+// 2. Criar e inserir novo elemento
+const aviso = document.createElement("div");
+aviso.className = "alert alert-success";
+aviso.textContent = "Elemento inserido via DOM!";
+app.appendChild(aviso);
+
+// 3. Ouvir eventos
+aviso.addEventListener("click", () => aviso.remove());</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Exemplo B: Manipular Classes CSS e Atributos (<code>classList</code> / <code>dataset</code>)</h5>
+          <p class="small text-muted">Alternando temas ou estados visuais sem recarregar a página.</p>
+          <div class="code-wrap">
+<pre><code class="language-javascript">const card = document.querySelector("#cartaoProduto");
+const btnTema = document.querySelector("#btnTema");
+
+btnTema.addEventListener("click", () => {
+  card.classList.toggle("bg-dark");
+  card.classList.toggle("text-white");
+  console.log("ID do produto:", card.dataset.produtoId);
+});</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Exemplo C: Formulário Dinâmico e Lista de Tarefas</h5>
+          <p class="small text-muted">Capturando <code>submit</code> e renderizando itens na tela.</p>
+          <div class="code-wrap">
+<pre><code class="language-javascript">const form = document.querySelector("#formTarefa");
+const lista = document.querySelector("#listaTarefas");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const texto = form.tarefa.value.trim();
+  if (!texto) return;
+  lista.insertAdjacentHTML("beforeend", `&lt;li&gt;${texto}&lt;/li&gt;`);
+  form.reset();
+});</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. API & JSON -->
+<section id="sec-api" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">2. API REST &amp; Anatomia do JSON</h2>
+    <div class="card border-0 shadow-sm p-4 mb-4">
+      <h5 class="fw-bold mb-3">Fluxo Cliente ↔ Servidor</h5>
+      <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <span class="badge bg-dark p-2">1. Front-end (fetch)</span>
+        <i class="bi bi-arrow-right text-info fw-bold"></i>
+        <span class="badge bg-primary p-2">2. HTTP Request (POST + Headers + JSON)</span>
+        <i class="bi bi-arrow-right text-info fw-bold"></i>
+        <span class="badge bg-secondary p-2">3. Back-end (Java / C# / Python)</span>
+        <i class="bi bi-arrow-right text-info fw-bold"></i>
+        <span class="badge bg-success p-2">4. HTTP Response (201 Created + JSON)</span>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <h6 class="fw-bold">Exemplo A: Enviando Dados (<code>POST</code> com <code>JSON.stringify</code>)</h6>
+          <div class="code-wrap">
+<pre><code class="language-javascript">async function salvarUsuario(usuario) {
+  const resp = await fetch("https://api.exemplo.com/usuarios", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(usuario)
+  });
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  return await resp.json();
+}</code></pre>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <h6 class="fw-bold">Estrutura Válida de um Objeto JSON</h6>
+          <div class="code-wrap">
+<pre><code class="language-json">{
+  "id": 101,
+  "linguagem": "Java",
+  "versao": 27,
+  "lts": true,
+  "recursos": ["Records", "Virtual Threads", "Streams"],
+  "mantenedor": { "nome": "OpenJDK", "licenca": "GPLv2+CE" },
+  "depreciado": null
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Exemplo B: Buscando CEP (<code>GET</code> na ViaCEP API)</h5>
+          <p class="small text-muted">Consumo real de API pública brasileira preenchendo o DOM.</p>
+          <div class="code-wrap">
+<pre><code class="language-javascript">async function buscarCep(cep) {
+  const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+  const dados = await res.json();
+  if (dados.erro) {
+    alert("CEP não encontrado!");
+    return;
+  }
+  document.querySelector("#cidade").textContent = `${dados.localidade}/${dados.uf}`;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Exemplo C: Conversão <code>JSON.parse</code> e <code>localStorage</code></h5>
+          <p class="small text-muted">Salvando e recuperando objetos JSON no navegador do usuário.</p>
+          <div class="code-wrap">
+<pre><code class="language-javascript">const config = { tema: "escuro", idioma: "pt-BR", atalhos: true };
+
+// Objeto JS -> String JSON salva localmente
+localStorage.setItem("preferencias", JSON.stringify(config));
+
+// String JSON -> Objeto JS novamente
+const salvo = JSON.parse(localStorage.getItem("preferencias"));
+console.log(salvo.tema); // "escuro"</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. BOOTSTRAP 5 -->
+<section id="sec-bootstrap" class="py-5">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">3. Bootstrap 5 — Grid Responsivo &amp; Exemplos</h2>
+    <p class="text-muted mb-3">Sistema de 12 colunas (<code>.container &gt; .row &gt; .col-*</code>) com breakpoints <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code> e <code>xxl</code>.</p>
+
+    <div class="demo-frame mb-4">
+      <div class="row g-2 text-center text-white fw-bold small">
+        <div class="col-12"><div class="bg-info text-dark py-2 rounded">.col-12 (largura total)</div></div>
+        <div class="col-md-4"><div class="bg-primary py-2 rounded">.col-md-4</div></div>
+        <div class="col-md-4"><div class="bg-primary py-2 rounded">.col-md-4</div></div>
+        <div class="col-md-4"><div class="bg-primary py-2 rounded">.col-md-4</div></div>
+        <div class="col-8"><div class="bg-success py-2 rounded">.col-8 (Conteúdo Principal)</div></div>
+        <div class="col-4"><div class="bg-secondary py-2 rounded">.col-4 (Lateral)</div></div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Exemplo A: Grid Responsivo 8 + 4 Colunas</h5>
+          <div class="code-wrap">
+<pre><code class="language-html">&lt;div class="container my-4"&gt;
+  &lt;div class="row g-3"&gt;
+    &lt;div class="col-12 col-md-8"&gt;
+      &lt;div class="card shadow-sm p-3"&gt;Painel Principal&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="col-12 col-md-4"&gt;
+      &lt;div class="alert alert-info mb-0"&gt;Barra Lateral&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Exemplo B: Cards, Badges e Botões Utilitários</h5>
+          <div class="code-wrap">
+<pre><code class="language-html">&lt;div class="card shadow-sm border-0 p-3"&gt;
+  &lt;div class="d-flex justify-content-between align-items-center"&gt;
+    &lt;h5 class="mb-0"&gt;Plano Pro&lt;/h5&gt;
+    &lt;span class="badge bg-success"&gt;Ativo&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;p class="text-muted small mt-2"&gt;Acesso ilimitado às APIs.&lt;/p&gt;
+  &lt;button class="btn btn-primary btn-sm w-100"&gt;Gerenciar&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. PÁGINAS EXEMPLARES INTERATIVAS (SUBPASTA exemplos/) -->
+<section id="sec-exemplos" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">4. Páginas Exemplares Práticas (Abrir ao Vivo)</h2>
+    <p class="text-muted mb-4">Clique abaixo para abrir os sites exemplares prontos na subpasta <code>exemplos/</code>:</p>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <span class="badge bg-primary align-self-start mb-2">Exemplo 01</span>
+          <h5 class="fw-bold">Containers Responsivos</h5>
+          <p class="small text-muted">Comparativo visual ao vivo entre <code>.container</code>, <code>.container-md</code> e <code>.container-fluid</code>.</p>
+          <a href="exemplos/container.html" class="btn btn-outline-primary btn-sm mt-auto"><i class="bi bi-box-arrow-up-right me-1"></i>Abrir container.html</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <span class="badge bg-info text-dark align-self-start mb-2">Exemplo 02</span>
+          <h5 class="fw-bold">Barras de Navegação</h5>
+          <p class="small text-muted">Modelos de Navbar escura e clara com menu hambúrguer, dropdown e busca.</p>
+          <a href="exemplos/navbar.html" class="btn btn-outline-primary btn-sm mt-auto"><i class="bi bi-box-arrow-up-right me-1"></i>Abrir navbar.html</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <span class="badge bg-success align-self-start mb-2">Exemplo 03</span>
+          <h5 class="fw-bold">Sistema de Grid (12 Colunas)</h5>
+          <p class="small text-muted">Dashboard responsivo completo com cards de métricas, área principal e barra lateral.</p>
+          <a href="exemplos/grid.html" class="btn btn-outline-primary btn-sm mt-auto"><i class="bi bi-box-arrow-up-right me-1"></i>Abrir grid.html</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="py-4">
+  <div class="container text-center small">
+    <p class="mb-1 fw-bold text-white"><i class="bi bi-terminal-fill text-info me-1"></i>Atlas Dev — Referência Completa de Linguagens</p>
+    <p class="mb-0">Navegue: <a href="index.html">Java</a> · <a href="csharp.html">C#</a> · <a href="python.html">Python</a> · <a href="c.html">C</a> · <a href="cpp.html">C++</a> · <a href="html.html">HTML</a> · <a href="css.html">CSS</a> · <a href="infografico.html">Infográfico Web</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  hljs.highlightAll();
+  document.querySelectorAll('.dom-node').forEach(node => {
+    node.addEventListener('click', () => {
+      document.getElementById('domInfo').innerHTML = '<i class="bi bi-info-circle-fill me-1"></i> ' + node.dataset.info;
+    });
+  });
+  document.querySelectorAll('.code-wrap').forEach(w => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-sm btn-outline-light btn-copy';
+    btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar';
+    btn.onclick = async () => {
+      await navigator.clipboard.writeText(w.querySelector('pre').innerText);
+      btn.innerHTML = '<i class="bi bi-check2"></i> Copiado!';
+      setTimeout(() => btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar', 1500);
+    };
+    w.appendChild(btn);
+  });
+</script>
+</body>
+</html>

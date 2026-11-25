@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas Dev: CSS3 — Referência Completa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <style>
+    :root { --cor-primaria:#0f3d4d; --cor-acento:#14b8a6; }
+    body { font-family:'Segoe UI', system-ui, sans-serif; scroll-behavior:smooth; background:#f8fafc; }
+    .navbar-atlas {
+      background: rgba(10, 25, 36, 0.94) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(20, 184, 166, 0.28);
+      padding: 0.7rem 0;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+      color: #071921; font-weight: 800; padding: 0.38rem 0.8rem;
+      border-radius: 10px; display: inline-flex; align-items: center; gap: 0.4rem;
+      box-shadow: 0 4px 14px rgba(20, 184, 166, 0.35);
+      transition: transform .2s ease;
+    }
+    .brand-badge:hover { transform: translateY(-1px); }
+    .navbar-atlas .nav-link {
+      color: #cbd5e1 !important; font-weight: 600; font-size: 0.88rem;
+      padding: 0.42rem 0.75rem !important; border-radius: 8px;
+      margin: 0 2px; transition: all .2s ease;
+    }
+    .navbar-atlas .nav-link:hover {
+      color: #fff !important; background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+    .navbar-atlas .nav-link.active {
+      color: #071921 !important; background: #14b8a6 !important;
+      box-shadow: 0 4px 12px rgba(20, 184, 166, 0.4);
+    }
+    .btn-infografico {
+      background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+      color: #061820 !important; font-weight: 700; font-size: 0.85rem;
+      border: none; border-radius: 999px; padding: 0.45rem 1rem;
+      box-shadow: 0 4px 15px rgba(20, 184, 166, 0.35);
+      transition: all .22s ease;
+    }
+    .btn-infografico:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(20, 184, 166, 0.55);
+    }
+    .hero-bg {
+      background: linear-gradient(135deg, #0b2d39 0%, #114756 52%, #14b8a6 130%);
+      color:#fff; padding:5rem 0 4.2rem; position:relative; overflow:hidden;
+    }
+    .hero-bg::after {
+      content:''; position:absolute; inset:0; opacity:.08;
+      background-image: radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px),
+                        radial-gradient(circle at 80% 20%, #fff 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .btn-hero-primary {
+      background: #fff; color: #0f3d4d; font-weight: 700; border: none;
+      border-radius: 12px; padding: 0.75rem 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22); transition: all .22s ease;
+    }
+    .btn-hero-primary:hover { background: #f0fdfa; color: #0b2d39; transform: translateY(-3px); }
+    .btn-hero-outline {
+      background: rgba(255, 255, 255, 0.08); color: #fff; font-weight: 600;
+      border: 1.5px solid rgba(255, 255, 255, 0.45); border-radius: 12px;
+      padding: 0.75rem 1.5rem; backdrop-filter: blur(4px); transition: all .22s ease;
+    }
+    .btn-hero-outline:hover { background: rgba(255, 255, 255, 0.18); color: #fff; border-color: #fff; transform: translateY(-3px); }
+    .section-title { position:relative; display:inline-block; padding-bottom:.5rem; margin-bottom:1.5rem; }
+    .section-title::after { content:''; position:absolute; left:0; bottom:0; width:60px; height:4px; background:var(--cor-acento); border-radius:2px; }
+    .stat-card { transition:transform .2s, box-shadow .2s; border:none; border-radius:16px; }
+    .stat-card:hover { transform:translateY(-5px); box-shadow:0 12px 30px rgba(15,61,77,.15); }
+    .stat-num { font-size:2.4rem; font-weight:800; color:var(--cor-acento); line-height:1; }
+    .padlet-wrap { background:#f4f1ea; border-radius:18px; padding:2rem; }
+    .sticky-note {
+      background:#fff9c4; padding:1.2rem 1rem; border-radius:6px;
+      box-shadow:2px 4px 10px rgba(0,0,0,.1); transform:rotate(-1deg);
+      min-height:140px; position:relative; transition:transform .18s;
+    }
+    .sticky-note:nth-child(even){ background:#c8e6c9; transform:rotate(1.2deg); }
+    .sticky-note:nth-child(3n){ background:#bbdefb; transform:rotate(-.7deg); }
+    .sticky-note:hover { transform:rotate(0) scale(1.04); z-index:2; }
+    .sticky-note .pin { position:absolute; top:-8px; left:50%; transform:translateX(-50%); width:16px; height:16px; background:#ef5350; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,.3); }
+    .sticky-note h6 { font-weight:700; color:#1a1a1a; margin-bottom:.5rem; font-size:.95rem; }
+    .sticky-note p { font-size:.82rem; color:#333; line-height:1.45; margin:0; }
+    pre code { border-radius:12px; font-size:.85rem; }
+    .code-wrap { position:relative; }
+    .btn-copy { position:absolute; top:.55rem; right:.55rem; z-index:5; border-radius:8px; }
+    .ref-card { border-left:4px solid var(--cor-acento); border-radius:14px; transition:transform .2s; }
+    .ref-card:hover { transform:translateY(-3px); }
+    footer { background:#071b24; color:#9fb3ba; }
+    footer a { color:#14b8a6; text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-atlas sticky-top shadow">
+  <div class="container">
+    <a class="navbar-brand text-decoration-none" href="index.html">
+      <span class="brand-badge"><i class="bi bi-terminal-fill"></i> ATLAS DEV</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navAtlas">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navAtlas">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-cup-hot me-1"></i>Java</a></li>
+        <li class="nav-item"><a class="nav-link" href="csharp.html"><i class="bi bi-hash me-1"></i>C# 15</a></li>
+        <li class="nav-item"><a class="nav-link" href="python.html"><i class="bi bi-filetype-py me-1"></i>Python</a></li>
+        <li class="nav-item"><a class="nav-link" href="c.html"><i class="bi bi-cpu me-1"></i>C23</a></li>
+        <li class="nav-item"><a class="nav-link" href="cpp.html"><i class="bi bi-speedometer2 me-1"></i>C++26</a></li>
+        <li class="nav-item"><a class="nav-link" href="html.html"><i class="bi bi-filetype-html me-1"></i>HTML5</a></li>
+        <li class="nav-item"><a class="nav-link active" href="css.html"><i class="bi bi-filetype-css me-1"></i>CSS3</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <input id="filtroBusca" class="form-control form-control-sm bg-dark text-white border-secondary" style="width:185px; border-radius:999px; padding-left:0.9rem;" type="search" placeholder="Filtrar propriedades...">
+        <a class="btn btn-infografico" href="infografico.html">
+          <i class="bi bi-diagram-3-fill me-1"></i>Infográfico Web
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero-bg">
+  <div class="container position-relative" style="z-index:2">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <span class="badge bg-info text-dark mb-3">CSS MODERNO • FLEXBOX, GRID &amp; VARIÁVEIS</span>
+        <h1 class="display-4 fw-bold mb-3">Linguagem <span class="text-info">CSS3</span></h1>
+        <p class="lead fs-5 opacity-90 mb-4">
+          Estilização e layout responsivo: Custom Properties (<code>--var</code>), seletores modernos (<code>:has()</code>),
+          Flexbox, CSS Grid, Container Queries, transições e animações <code>@keyframes</code>.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="#propriedades" class="btn btn-hero-primary"><i class="bi bi-journal-code me-2"></i>Explorar Códigos</a>
+          <a href="infografico.html" class="btn btn-hero-outline"><i class="bi bi-bootstrap-fill me-2"></i>Ver Bootstrap 5</a>
+        </div>
+      </div>
+      <div class="col-lg-4 text-center d-none d-lg-block">
+        <i class="bi bi-filetype-css" style="font-size:10rem; opacity:.85"></i>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">CSS Moderno em Números</h2>
+    <div class="row g-4">
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">Grid</div><div class="fw-semibold mt-1">Layout 2D</div><small class="text-muted">Linhas e colunas simultâneas</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">Flex</div><div class="fw-semibold mt-1">Layout 1D</div><small class="text-muted">Alinhamento dinâmico em eixos</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">:has()</div><div class="fw-semibold mt-1">Seletor Pai</div><small class="text-muted">Estilização relacional nativa</small></div></div>
+      <div class="col-6 col-md-3"><div class="card stat-card text-center p-4 h-100 shadow-sm"><div class="stat-num">--var</div><div class="fw-semibold mt-1">Design Tokens</div><small class="text-muted">Variáveis dinâmicas em cascata</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">Quadro Rápido — Conceitos-Chave do CSS</h2>
+    <div class="padlet-wrap">
+      <div class="row g-3">
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>Box Model</h6><p><code>box-sizing: border-box</code> inclui <code>padding</code> e <code>border</code> dentro da largura total.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>Flexbox</h6><p><code>justify-content</code> alinha no eixo principal; <code>align-items</code> alinha no eixo cruzado.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>CSS Grid</h6><p><code>repeat(auto-fit, minmax(260px, 1fr))</code> cria grades responsivas sem media queries.</p></div></div>
+        <div class="col-6 col-md-3"><div class="sticky-note"><span class="pin"></span><h6>Funções Fluidas</h6><p><code>clamp(min, ideal, max)</code> escala fontes e espaçamentos suavemente entre telas.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="propriedades" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">1. Seletores, Flexbox e Grid</h2>
+    <div class="row g-4">
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Variáveis CSS, <code>:has()</code> e CSS Grid Fluido</h5>
+          <p class="small text-muted">Tokens reutilizáveis e grade responsiva automática.</p>
+          <div class="code-wrap">
+<pre><code class="language-css">:root {
+  --cor-primaria: #0f3d4d;
+  --cor-acento: #14b8a6;
+}
+
+.grade-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.card:has(img) {
+  border: 2px solid var(--cor-acento);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Flexbox, <code>position: sticky</code> e <code>@keyframes</code></h5>
+          <p class="small text-muted">Barra fixa alinhada e animação suave por GPU.</p>
+          <div class="code-wrap">
+<pre><code class="language-css">.navbar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="efeitos-css" class="py-5">
+  <div class="container">
+    <h2 class="section-title h2 fw-bold">2. Glassmorphism, Tipografia Fluida e Container Queries</h2>
+    <div class="row g-4">
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Efeito Vidro (<code>backdrop-filter</code>) &amp; Tipografia <code>clamp()</code></h5>
+          <p class="small text-muted">Cartões translúcidos e títulos que escalam sem quebras bruscas.</p>
+          <div class="code-wrap">
+<pre><code class="language-css">.painel-vidro {
+  background: rgba(15, 61, 77, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+}
+
+.titulo-fluido {
+  font-size: clamp(1.75rem, 3vw + 1rem, 3.25rem);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 search-item">
+        <div class="card ref-card border-0 shadow-sm p-4 h-100">
+          <h5 class="fw-bold text-primary">Container Queries (<code>@container</code>)</h5>
+          <p class="small text-muted">Componentes que se adaptam ao tamanho do contêiner pai, não só da tela.</p>
+          <div class="code-wrap">
+<pre><code class="language-css">.wrapper-card {
+  container-type: inline-size;
+}
+
+@container (min-width: 420px) {
+  .card-interno {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="py-4">
+  <div class="container text-center small">
+    <p class="mb-1 fw-bold text-white"><i class="bi bi-terminal-fill text-info me-1"></i>Atlas Dev — Referência Completa de Linguagens</p>
+    <p class="mb-0">Navegue: <a href="index.html">Java</a> · <a href="csharp.html">C#</a> · <a href="python.html">Python</a> · <a href="c.html">C</a> · <a href="cpp.html">C++</a> · <a href="html.html">HTML</a> · <a href="css.html">CSS</a> · <a href="infografico.html">Infográfico Web</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  hljs.highlightAll();
+  document.querySelectorAll('.code-wrap').forEach(w => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-sm btn-outline-light btn-copy';
+    btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar';
+    btn.onclick = async () => {
+      await navigator.clipboard.writeText(w.querySelector('pre').innerText);
+      btn.innerHTML = '<i class="bi bi-check2"></i> Copiado!';
+      setTimeout(() => btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar', 1500);
+    };
+    w.appendChild(btn);
+  });
+  document.getElementById('filtroBusca').addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll('.search-item').forEach(el => {
+      el.style.display = el.innerText.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+</script>
+</body>
+</html>
